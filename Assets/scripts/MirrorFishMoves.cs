@@ -164,6 +164,7 @@ public class MirrorFishMoves : NetworkBehaviour
     // ゲームクリア処理
     private void GameClear()
     {
+        if (!isLocalPlayer) return; // ローカルプレイヤー以外は実行しない
         Debug.Log("Game Clear!");
 
         // 画像を表示
@@ -284,6 +285,7 @@ public class MirrorFishMoves : NetworkBehaviour
     [Server]
     private void GameOver()
     {
+        if (!isLocalPlayer) return; // ローカルプレイヤー以外は実行しない
         Debug.Log("GameOver");
 
         // ゲームオーバー画像を表示
