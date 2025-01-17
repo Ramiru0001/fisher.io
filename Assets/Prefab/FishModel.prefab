@@ -155,6 +155,8 @@ MonoBehaviour:
   m_NewRotation: {x: 0, y: 0, z: 0, w: 0}
   m_NewDirection: {x: 0, y: 0, z: 0}
   cam_RotationSpeed: 3
+  gameClearImage: {fileID: 0}
+  gameOverImage: {fileID: 0}
   replayButton: {fileID: 0}
 --- !u!114 &8254175665685884649
 MonoBehaviour:
