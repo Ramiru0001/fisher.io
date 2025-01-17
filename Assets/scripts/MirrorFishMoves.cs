@@ -157,14 +157,17 @@ public class MirrorFishMoves : NetworkBehaviour
         // スケールが5以上になったらゲームクリア
         if (transform.localScale.x >= 5f)
         {
-            GameClear();
+            // 自分の接続情報を取得
+            NetworkConnection target = connectionToClient;
+            // 他のクライアントに影響を与えないように、自分だけに通知を送る
+            TargetGameClear(target);
         }
     }
 
     // ゲームクリア処理
-    private void GameClear()
+    [TargetRpc]
+    private void TargetGameClear(NetworkConnection target)
     {
-        if (!isLocalPlayer) return; // ローカルプレイヤー以外は実行しない
         Debug.Log("Game Clear!");
 
         // 画像を表示
@@ -253,6 +256,7 @@ public class MirrorFishMoves : NetworkBehaviour
         //}
     }
 
+    [Server]
     private void HandlePlayerCollision(MirrorFishMoves otherPlayer)
     {
         // 自分と相手の大きさ（スケール）を比較
@@ -268,7 +272,7 @@ public class MirrorFishMoves : NetworkBehaviour
 
             // 自分が大きい場合、経験値を獲得し相手を削除
             AddExperience(gainedExperience);
-            otherPlayer.GameOver();
+            TargetGameOver(otherPlayer.connectionToClient);
         }
     }
 
@@ -282,8 +286,8 @@ public class MirrorFishMoves : NetworkBehaviour
         }
     }
 
-    [Server]
-    private void GameOver()
+    [TargetRpc]
+    private void TargetGameOver(NetworkConnection target)
     {
         if (!isLocalPlayer) return; // ローカルプレイヤー以外は実行しない
         Debug.Log("GameOver");
